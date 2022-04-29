@@ -28,13 +28,13 @@ void setup()
 {
   Serial.begin(9600); //Baud rate: 9600
   
-  while (!Serial);
+   while (!Serial); // wait for serial port to connect.
 
-  if ( xSerialSemaphore == NULL )  
+  if ( xSerialSemaphore == NULL )  // Check to confirm that the Serial Semaphore has not already been created.
   {
-    xSerialSemaphore = xSemaphoreCreateMutex();
+    xSerialSemaphore = xSemaphoreCreateMutex();  // Create a mutex semaphore we will use to manage the Serial Port
     if ( ( xSerialSemaphore ) != NULL )
-      xSemaphoreGive( ( xSerialSemaphore ) );
+      xSemaphoreGive( ( xSerialSemaphore ) );  // Make the Serial Port available for use, by "Giving" the Semaphore.
   }
 
   // Initialisation des ports
@@ -43,17 +43,17 @@ void setup()
   pinMode(bouton2, INPUT);
   
    // Initialisation des queues
-  qpot = xQueueCreate(4, sizeof(int));
-  qbouton = xQueueCreate(4, sizeof(int));
-  qstructure = xQueueCreate(4, sizeof(valeurCapteurs));
-  qsensor = xQueueCreate(4, sizeof(valeurCapteurs));
+  qpot = xQueueCreate(5, sizeof(uint32_t));
+  qbouton = xQueueCreate(5, sizeof(uint32_t));
+  qstructure = xQueueCreate(5, sizeof(valeurCapteurs));
+  qsensor = xQueueCreate(5, sizeof(valeurCapteurs));
  
   // Initialisation des tâches
-  xTaskCreate(task1, "Récupére la valeur du potentiomètre", 100, NULL, 0, NULL);
-  xTaskCreate(task2, "Lis la valeur des boutons", 100, NULL, 0, NULL);
-  xTaskCreate(task3, "Initialise la structure et envoie de la structure remplie", 100, NULL, 0, NULL);
-  xTaskCreate(task4, "Affiche la structure", 100, NULL, 0, NULL);
-  xTaskCreate(task5, "Affiche la nouvelle structure en minutes", 100, NULL, 0, NULL);
+  xTaskCreate(task1, "Récupére la valeur du potentiomètre", 128, NULL, 1, NULL);
+  xTaskCreate(task2, "Lis la valeur des boutons", 128, NULL, 1, NULL);
+  xTaskCreate(task3, "Initialise la structure et envoie de la structure remplie", 128, NULL, 1, NULL);
+  xTaskCreate(task4, "Affiche la structure", 1000, NULL, 1, NULL);
+  xTaskCreate(task5, "Affiche la nouvelle structure en minutes", 1000, NULL, 1, NULL);
 }
 
 void loop() 
