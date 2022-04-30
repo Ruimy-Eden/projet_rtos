@@ -5,4 +5,4 @@ Pour envoyer des données d'une tâche à l'autre, on utilise des queues.
 La sécurisation à l'accès au port série est faite avec l'utilisation des semaphores. Ils permettent de réserver le port à la tâche en cours.  
 Le code compile bien sur Arduino.  
   
-Aprés simulation sur Wokwi la solution :   
+Puis on fait la simulation sur Wokwi.  
